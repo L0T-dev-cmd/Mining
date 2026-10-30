@@ -9,6 +9,8 @@ try {
     $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
     "$hash  MineriaBitcoin.exe" | Set-Content (Join-Path $repo 'artifacts/windows/SHA256SUMS.txt') -Encoding ascii
     Copy-Item README.md artifacts/windows/README.md
-    Copy-Item docs/GUIA-WINDOWS.md artifacts/windows/GUIA-WINDOWS.md
+    Copy-Item CHANGELOG.md artifacts/windows/CHANGELOG.md
+    New-Item -ItemType Directory -Force artifacts/windows/docs | Out-Null
+    Copy-Item docs/*.md artifacts/windows/docs/
     Write-Host 'Ejecutable y checksum disponibles en artifacts/windows.'
 } finally { Pop-Location }
