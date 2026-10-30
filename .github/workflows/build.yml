@@ -1,0 +1,33 @@
+name: Build and test Windows application
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Build
+        run: dotnet build Mining.slnx -c Release
+      - name: Protocol and hashing tests
+        run: dotnet run --project tests/Mining.Tests -c Release --no-build
+      - name: Publish standalone executable
+        shell: pwsh
+        run: ./scripts/publish-windows.ps1
+      - name: Check idle startup and clean window shutdown
+        shell: pwsh
+        run: ./scripts/smoke-windows.ps1
+      - name: Upload Windows executable and checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: MineriaBitcoin-win-x64
+          path: artifacts/windows/*
+          if-no-files-found: error
+          retention-days: 90

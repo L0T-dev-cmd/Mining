@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Mining.Core/Mining.Core.csproj" />
+    <Project Path="src/Mining.Desktop/Mining.Desktop.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Mining.Tests/Mining.Tests.csproj" />
+  </Folder>
+</Solution>
